@@ -1,13 +1,18 @@
-#Rearrange RGB values to form the image
 import pandas as pd
 import numpy as np
 from PIL import Image
-import matplotlib.pyplot as plt
+import matplotlib as plt
 import matplotlib.image as mpimg
+
+# Ask for image size
+width = int(input("Enter the width of the image: "))
+height = int(input("Enter the height of the image: "))
+
 # Load the Excel file containing modified XYZ values with headers
 input_file = 'output_xyz2rgb_data_manual.xlsx'
 df = pd.read_excel(input_file)
 df = df.dropna()
+
 # Extract R, G, and B values
 r_values = df['R'].astype(int).values
 g_values = df['G'].astype(int).values
@@ -17,9 +22,9 @@ b_values = df['B'].astype(int).values
 pixel_numbers = df['PixelNumber'].astype(int).values
 
 # Initialize matrices for R, G, and B
-matrix_r = np.zeros((512, 512), dtype=np.uint8)
-matrix_g = np.zeros((512, 512), dtype=np.uint8)
-matrix_b = np.zeros((512, 512), dtype=np.uint8)
+matrix_r = np.zeros((height, width), dtype=np.uint8)
+matrix_g = np.zeros((height, width), dtype=np.uint8)
+matrix_b = np.zeros((height, width), dtype=np.uint8)
 
 # Assign R, G, and B values to their respective matrices based on pixel number
 matrix_r.flat[pixel_numbers - 1] = r_values
@@ -32,19 +37,17 @@ with pd.ExcelWriter('output_rgb_matrices.xlsx') as writer:
     pd.DataFrame(matrix_g).to_excel(writer, sheet_name='Green', index=False, header=False)
     pd.DataFrame(matrix_b).to_excel(writer, sheet_name='Blue', index=False, header=False)
 
-rgb_file = 'output_rgb_matrices.xlsx'
-df_red = pd.read_excel(rgb_file, sheet_name='Red', header=None)
-df_green = pd.read_excel(rgb_file, sheet_name='Green', header=None)
-df_blue = pd.read_excel(rgb_file, sheet_name='Blue', header=None)
-
 # Convert DataFrames to NumPy arrays
+df_red = pd.read_excel('output_rgb_matrices.xlsx', sheet_name='Red', header=None)
+df_green = pd.read_excel('output_rgb_matrices.xlsx', sheet_name='Green', header=None)
+df_blue = pd.read_excel('output_rgb_matrices.xlsx', sheet_name='Blue', header=None)
+
 matrix_red = df_red.values
 matrix_green = df_green.values
 matrix_blue = df_blue.values
 
 # Stack RGB matrices to create a 3D array (RGB image)
 rgb_image = np.stack([matrix_red, matrix_green, matrix_blue], axis=-1)
-# Convert the numpy array to uint8 (required by PIL)
 rgb_image = rgb_image.astype(np.uint8)
 
 # Create an Image object from the RGB array
@@ -52,6 +55,11 @@ image = Image.fromarray(rgb_image)
 
 # Save the image (optional)
 image.save('output_image.png')
+
+# Display the image using matplotlib
+plt.imshow(rgb_image)
+plt.axis('off')
+plt.show()
 
 
 #image.show()
