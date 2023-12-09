@@ -6,6 +6,8 @@ import pandas as pd
 # Read the image
 image_path = 'lena.png'  # Replace with the path to your image
 image = cv2.imread(image_path)
+height, width, channels = image.shape
+print("The width and height of the image is:", width, "X", height)
 
 # Split the image into its RGB channels
 b, g, r = cv2.split(image)
