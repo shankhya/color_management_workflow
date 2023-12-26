@@ -8,7 +8,6 @@ image_path = 'lena.png'  # Replace with the path to your image
 image = cv2.imread(image_path)
 height, width, channels = image.shape
 print("The width and height of the image is:", width, "X", height)
-
 # Split the image into its RGB channels
 b, g, r = cv2.split(image)
 
@@ -22,7 +21,7 @@ k = np.minimum(c, np.minimum(m, y))
 c_gcr = c - (0.10 * k)
 m_gcr = m - (0.10 * k)
 y_gcr = y - (0.10 * k)
-k_gcr = k - (0.10 * k)
+k_gcr = 0.10 * k
 
 # UCR Block
 # Light GCR Calculation with threshold

@@ -1,15 +1,16 @@
+#Rearrange RGB values to form the image
 import pandas as pd
 import numpy as np
 from PIL import Image
-import matplotlib as plt
 import matplotlib.image as mpimg
+import matplotlib.pyplot as plt
 
 # Ask for image size
 width = int(input("Enter the width of the image: "))
 height = int(input("Enter the height of the image: "))
 
 # Load the Excel file containing modified XYZ values with headers
-input_file = 'output_xyz2rgb_data_manual.xlsx'
+input_file = 'output_xyz2rgb_data_lut.xlsx'
 df = pd.read_excel(input_file)
 df = df.dropna()
 
@@ -54,17 +55,12 @@ rgb_image = rgb_image.astype(np.uint8)
 image = Image.fromarray(rgb_image)
 
 # Save the image (optional)
-image.save('output_image.png')
-
-# Display the image using matplotlib
-plt.imshow(rgb_image)
-plt.axis('off')
-plt.show()
+image.save('output_image_2.png')
 
 
 #image.show()
 im1='lena.png'
-im2='output_image.png'
+im2='output_image_2.png'
 # Load images using matplotlib.image.imread
 image1 = mpimg.imread(im1)
 image2 = mpimg.imread(im2)
@@ -86,5 +82,4 @@ for ax in axes:
     ax.set_yticks([])
 
 # Show the plot
-plt.savefig('output_figure.png')
-
+plt.savefig('output_figure_2.png')
