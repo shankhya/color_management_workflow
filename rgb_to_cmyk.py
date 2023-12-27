@@ -18,19 +18,19 @@ y = ((255 - b) / 255) * 100
 
 # Light GCR Calculation
 k = np.minimum(c, np.minimum(m, y))
-c_gcr = c - (0.10 * k)
-m_gcr = m - (0.10 * k)
-y_gcr = y - (0.10 * k)
-k_gcr = 0.10 * k
+c_gcr = c - ( k)
+m_gcr = m - ( k)
+y_gcr = y - ( k)
+k_gcr =  k
 
 # UCR Block
 # Light GCR Calculation with threshold
 threshold = 200
 
-c_ucr = np.where(c + m + y >= threshold, c - 0.1 * k, c)
-m_ucr = np.where(c + m + y >= threshold, m - 0.1 * k, m)
-y_ucr = np.where(c + m + y >= threshold, y - 0.1 * k, y)
-k_ucr = np.where(c + m + y >= threshold, k - 0.1 * k, k)
+c_ucr = np.where((c + m + y) >= threshold, (c - (0.10 * k)), c)
+m_ucr = np.where((c + m + y) >= threshold, (m - (0.10 * k)), m)
+y_ucr = np.where((c + m + y) >= threshold, (y - (0.10 * k)), y)
+k_ucr = np.where((c + m + y) >= threshold, (0.10 * k), 0)
 
 
 
@@ -76,4 +76,3 @@ df_final.to_excel(excel_writer, index=False)
 
 # Save the Excel file
 excel_writer.save()
-
