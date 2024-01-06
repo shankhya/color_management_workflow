@@ -63,7 +63,7 @@ df_pixels = pd.DataFrame(pixel_numbers, columns=['PixelNumber'])
 df_rgb = pd.DataFrame({'Red': r_values, 'Green': g_values, 'Blue': b_values, 'Cyan':c_values,
                        'Magenta':m_values, 'Yellow':y_values, 'Black':k_values, 'Cyan_GCR':c_gcr_values,
                        'Magenta_GCR':m_gcr_values, 'Yellow_GCR':y_gcr_values, 'Black_GCR':k_gcr_values,
-                      'Cyan_UCR':c_ucr_values, 'Magenta_UCR':m_ucr_values, 'Yellow_UCR':y_ucr_values, 'Black_UCR':k_ucr_values})
+                      'Cyan_UCR':c_ucr_values, 'Magenta_UCR':m_ucr_values, 'Yellow_UCR':y_ucr_values, 'Black_UCR':k_ucr_values, 'Black0': np.zeros_like(k_values)})
 
 # Concatenate the DataFrames
 df_final = pd.concat([df_pixels, df_rgb], axis=1)
