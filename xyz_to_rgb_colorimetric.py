@@ -1,19 +1,21 @@
-#XYZ to RGB conversion manually
+#XYZ TO RGB MANUALLY
 import pandas as pd
 import numpy as np
+
 
 def gamma_correction(value):
     if value <= 0.04045:
         return 12.92 * value
     else:
-        return (1.055 * (value ** (1/2.4))) - 0.055
+        return (1.055 * (value ** (1 / 2.4))) - 0.055
+
 
 # Ask user for the type of conversion
 conversion_type = input("Enter the type of conversion (LUT/Colorimetric): ").strip().lower()
 
 # Load the Excel file containing XYZ values
-input_file = 'output_for_luts_lab_to_XYZ.xlsx'  # Replace with your file name
-df = pd.read_excel(input_file, names=['Pixel', 'X', 'Y', 'Z'])
+input_file = 'output_lab_to_xyz_manual.xlsx'  # Replace with your file name
+df = pd.read_excel(input_file, names=['PixelNumber', 'X', 'Y', 'Z'])
 
 # Check user's choice and perform conversion accordingly
 if conversion_type == 'lut':
@@ -21,7 +23,7 @@ if conversion_type == 'lut':
     df[['X', 'Y', 'Z']] = df[['X', 'Y', 'Z']] / 100.0  # Assuming XYZ values are in percentage
     # Your LUT-based conversion code here...
     print("LUT-based conversion selected.")
-    
+
 elif conversion_type == 'colorimetric':
     # No normalization for colorimetric conversion
     print("Colorimetric conversion selected.")
@@ -41,8 +43,8 @@ gamma_corrected = np.vectorize(gamma_correction)
 srgb_values = gamma_corrected(linear_rgb_values) * 255
 
 # Create a new DataFrame with Pixel number and RGB values
-result_df = pd.DataFrame(np.column_stack([df['Pixel'], srgb_values]),
-                         columns=['Pixel', 'R', 'G', 'B'])
+result_df = pd.DataFrame(np.column_stack([df['PixelNumber'], srgb_values]),
+                         columns=['PixelNumber', 'R', 'G', 'B'])
 
 # Save the result to a new Excel file
 output_file = 'output_xyz2rgb_data.xlsx'
